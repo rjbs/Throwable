@@ -22,15 +22,30 @@ has message => (
   required => 1,
 );
 
-has stack_trace => (
-  is  => 'ro',
-  isa => 'Defined',
-  default => sub {
-    Devel::StackTrace->new(
-      ignore_class => [ __PACKAGE__ ]
-    );
-  },
+has stack_trace_args => (
+  is      => 'ro',
+  isa     => 'ArrayRef',
+  lazy    => 1,
+  builder => '_build_stack_trace_args',
 );
+
+has stack_trace => (
+  is      => 'ro',
+  isa     => 'Defined',
+  builder => '_build_stack_trace',
+);
+
+sub _build_stack_trace_args {
+  my ($self) = @_;
+  return [ignore_class => [ __PACKAGE__ ]];
+}
+
+sub _build_stack_trace {
+  my ($self) = @_;
+  return Devel::StackTrace->new(
+    @{ $self->stack_trace_args },
+  );
+}
 
 no Moose;
 1;
