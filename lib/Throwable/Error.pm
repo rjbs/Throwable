@@ -37,7 +37,17 @@ has stack_trace => (
 
 sub _build_stack_trace_args {
   my ($self) = @_;
-  return [ignore_class => [ __PACKAGE__ ]];
+  my $found_mark = 0;
+  my $uplevel = 4; # number of *raw* frames to go up after we found the marker
+  return [
+    ignore_class     => [ __PACKAGE__ ],
+    find_start_frame => sub {
+      my ($raw) = @_;
+      $found_mark ||= scalar $raw->{caller}->[3] =~ /__stack_marker$/;
+      return 0 unless $found_mark;
+      return !$uplevel--;
+    },
+  ];
 }
 
 sub _build_stack_trace {
