@@ -47,5 +47,17 @@ sub _build_stack_trace {
   );
 }
 
+around new => sub {
+  my $next = shift;
+  my $self = shift;
+  return $self->__stack_marker($next, @_);
+};
+
+sub __stack_marker {
+  my $self = shift;
+  my $next = shift;
+  return $self->$next(@_);
+}
+
 no Moose;
 1;
