@@ -17,8 +17,8 @@ sub as_string {
 }
 
 has message => (
-  is  => 'ro',
-  isa => 'Str',
+  is       => 'ro',
+  isa      => 'Str',
   required => 1,
 );
 
