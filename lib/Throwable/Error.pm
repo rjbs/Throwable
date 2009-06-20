@@ -2,7 +2,6 @@ package Throwable::Error;
 use Moose;
 with 'Throwable';
 
-use Devel::StackTrace;
 use overload
   q{""}    => 'as_string',
   fallback => 1;
@@ -22,6 +21,23 @@ has message => (
   required => 1,
 );
 
+{
+  use Moose::Util::TypeConstraints;
+
+  my $tc = subtype as 'ClassName';
+  coerce $tc, from 'Str', via { Class::MOP::load_class($_) };
+
+  has stack_trace_class => (
+    is      => 'ro',
+    isa     => $tc,
+    coerce  => 1,
+    lazy    => 1,
+    builder => '_build_stack_trace_class',
+  );
+
+  no Moose::Util::TypeConstraints;
+}
+
 has stack_trace_args => (
   is      => 'ro',
   isa     => 'ArrayRef',
@@ -34,6 +50,10 @@ has stack_trace => (
   isa     => 'Defined',
   builder => '_build_stack_trace',
 );
+
+sub _build_stack_trace_class {
+  return 'Devel::StackTrace';
+}
 
 sub _build_stack_trace_args {
   my ($self) = @_;
@@ -52,7 +72,7 @@ sub _build_stack_trace_args {
 
 sub _build_stack_trace {
   my ($self) = @_;
-  return Devel::StackTrace->new(
+  return $self->stack_trace_class->new(
     @{ $self->stack_trace_args },
   );
 }
