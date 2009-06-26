@@ -1,6 +1,7 @@
 package Throwable::Error;
 use Moose;
 with 'Throwable';
+# ABSTRACT: an easy-to-use class for error objects
 
 use overload
   q{""}    => 'as_string',
