@@ -3,9 +3,53 @@ use Moose;
 with 'Throwable';
 # ABSTRACT: an easy-to-use class for error objects
 
+=head1 SYNOPSIS
+
+  package MyApp::Error;
+  use Moose;
+  extends 'Throwable::Error';
+
+  has execution_phase => (is => 'ro', isa => 'MyApp::Phase');
+
+...and in your app...
+
+  MyApp::Error->throw({ phase => $self->phase });
+
+=head1 DESCRIPTION
+
+Throwable::Error is a base class for exceptions that will be thrown to signal
+errors and abort normal program flow.  Throwable::Error is an alternative to
+L<Exception::Class|Exception::Class>, the features of which are largely
+provided by the Moose object system atop which Throwable::Error is built.
+
+Throwable::Error performs the L<Throwable|Throwable> role.
+
+=cut
+
 use overload
   q{""}    => 'as_string',
   fallback => 1;
+
+=attr message
+
+This attribute must be defined and must contain a string describing the error
+condition.  This string will be printed at the top of the stack trace when the
+error is stringified.
+
+=cut
+
+has message => (
+  is       => 'ro',
+  isa      => 'Str',
+  required => 1,
+);
+
+=method as_string
+
+This method will provide a string representing the error, containing the
+error's message followed by the its stack trace.
+
+=cut
 
 sub as_string {
   my ($self) = @_;
@@ -16,14 +60,29 @@ sub as_string {
   return $str;
 }
 
-has message => (
-  is       => 'ro',
-  isa      => 'Str',
-  required => 1,
-);
+=attr stack_trace
+
+This attribute will contain an object representing the stack at the point when
+the error was generated and thrown.  It must be an object performing the
+C<as_string> method.
+
+=attr stack_trace_class
+
+This attribute may be provided to use an alternate class for stack traces.  The
+default is L<Devel::StackTrace|Devel::StackTrace>.
+
+In general, you will not need to think about this attribute.
+
+=cut
 
 {
   use Moose::Util::TypeConstraints;
+  
+  has stack_trace => (
+    is      => 'ro',
+    isa     => duck_type([ qw(as_string) ]),
+    builder => '_build_stack_trace',
+  );
 
   my $tc = subtype as 'ClassName';
   coerce $tc, from 'Str', via { Class::MOP::load_class($_) };
@@ -39,17 +98,18 @@ has message => (
   no Moose::Util::TypeConstraints;
 }
 
+=attr stack_trace_args
+
+This attribute is an arrayref of arguments to pass when building the stack
+trace.  In general, you will not need to think about it.
+
+=cut
+
 has stack_trace_args => (
   is      => 'ro',
   isa     => 'ArrayRef',
   lazy    => 1,
   builder => '_build_stack_trace_args',
-);
-
-has stack_trace => (
-  is      => 'ro',
-  isa     => 'Defined',
-  builder => '_build_stack_trace',
 );
 
 sub _build_stack_trace_class {
