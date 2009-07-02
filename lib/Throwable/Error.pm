@@ -77,7 +77,7 @@ In general, you will not need to think about this attribute.
 
 {
   use Moose::Util::TypeConstraints;
-  
+
   has stack_trace => (
     is      => 'ro',
     isa     => duck_type([ qw(as_string) ]),
