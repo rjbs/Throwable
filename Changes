@@ -1,0 +1,11 @@
+Revision history for Throwable
+
+0.092000  2009-07-18
+          fix required version of Moose to avoid failures
+
+0.091900  2009-07-09
+          rely on the stable release of Devel::StackTrace that does what we
+          need
+
+0.091780  2009-06-26
+          first testing release
