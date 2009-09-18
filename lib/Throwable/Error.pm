@@ -85,7 +85,7 @@ In general, you will not need to think about this attribute.
   );
 
   my $tc = subtype as 'ClassName';
-  coerce $tc, from 'Str', via { Class::MOP::load_class($_) };
+  coerce $tc, from 'Str', via { Class::MOP::load_class($_); $_ };
 
   has stack_trace_class => (
     is      => 'ro',

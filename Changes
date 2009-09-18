@@ -1,5 +1,8 @@
 Revision history for Throwable
 
+0.092610  2009-09-18
+          fix to work with latest Class::MOP (thanks, Paul Mooney)
+
 0.092000  2009-07-18
           fix required version of Moose to avoid failures
 
