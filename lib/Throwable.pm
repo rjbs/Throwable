@@ -46,8 +46,14 @@ use the created object as the only argument to C<die>.
 =cut
 
 sub throw {
-  my ($self, @rest) = @_;
-  my $throwable = $self->new(@rest);
+  my ($inv) = shift;
+
+  if (blessed $inv) {
+    confess "throw called on Throwable object with arguments" if @_;
+    die $inv;
+  }
+
+  my $throwable = $inv->new(@_);
   die $throwable;
 }
 
