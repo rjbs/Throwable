@@ -43,6 +43,8 @@ has 'previous_exception' => (
 This method will call new, passing all arguments along to new, and will then
 use the created object as the only argument to C<die>.
 
+If called on an object that does Throwable, the object will be rethrown.
+
 =cut
 
 sub throw {
