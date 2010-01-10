@@ -9,11 +9,22 @@ with 'Throwable';
   use Moose;
   extends 'Throwable::Error';
 
-  has execution_phase => (is => 'ro', isa => 'MyApp::Phase');
+  has execution_phase => (
+    is  => 'ro',
+    isa => 'MyApp::Phase',
+    default => 'startup',
+  );
 
 ...and in your app...
 
-  MyApp::Error->throw({ phase => $self->phase });
+  MyApp::Error->throw("all communications offline");
+
+  # or...
+
+  MyApp::Error->throw({
+    message => "all communications offline",
+    phase   => 'shutdown',
+  });
 
 =head1 DESCRIPTION
 
