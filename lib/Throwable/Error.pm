@@ -142,6 +142,19 @@ sub _build_stack_trace {
   );
 }
 
+sub BUILDARGS {
+  my ($self, @args) = @_;
+
+  return {} unless @args;
+  return {} if @args == 1 and ! defined $args[0];
+
+  if (@args == 1 and (!ref $args[0]) and defined $args[0] and length $args[0]) {
+    return { message => $args[0] };
+  }
+
+  return $self->SUPER::BUILDARGS(@args);
+}
+
 around new => sub {
   my $next = shift;
   my $self = shift;
