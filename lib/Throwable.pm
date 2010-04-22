@@ -1,5 +1,5 @@
 package Throwable;
-use Moose::Role;
+use Moose::Role 0.87;
 # ABSTRACT: a role for classes that can be thrown
 
 =head1 SYNOPSIS
@@ -31,7 +31,7 @@ has 'previous_exception' => (
   is       => 'ro',
   init_arg => undef,
   default  => sub {
-    return unless defined $@ and ref $@ or length $@;
+    return unless defined $@ and (ref $@ or length $@);
     return $@;
   },
 );

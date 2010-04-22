@@ -1,5 +1,5 @@
 package Throwable::Error;
-use Moose;
+use Moose 0.87;
 with 'Throwable';
 # ABSTRACT: an easy-to-use class for error objects
 

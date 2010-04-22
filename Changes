@@ -1,5 +1,8 @@
 Revision history for Throwable
 
+{{$NEXT}}
+          avoid doing: length undef (thanks, Yuval Kogman)
+
 0.100090  2010-01-10
           $error->throw now rethrows existing Errors
           Error->throw("str") now uses the string as message attr
