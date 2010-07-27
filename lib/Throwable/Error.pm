@@ -1,6 +1,6 @@
 package Throwable::Error;
 use Moose 0.87;
-with 'Throwable', 'Role::AutoTrace';
+with 'Throwable', 'StackTrace::Auto';
 # ABSTRACT: an easy-to-use class for error objects
 
 =head1 SYNOPSIS
@@ -33,7 +33,10 @@ errors and abort normal program flow.  Throwable::Error is an alternative to
 L<Exception::Class|Exception::Class>, the features of which are largely
 provided by the Moose object system atop which Throwable::Error is built.
 
-Throwable::Error performs the L<Throwable|Throwable> role.
+Throwable::Error performs the L<Throwable|Throwable> and L<StackTrace::Auto>
+roles.  That means you can call C<throw> on it to create and throw n error
+object in one call, and that every error object will have a stack trace for its
+creation.
 
 =cut
 
@@ -54,6 +57,13 @@ has message => (
   isa      => 'Str',
   required => 1,
 );
+
+=attr stack_trace
+
+This attribute, provided by L<StackTrace::Auto>, will contain a stack trace
+object guaranteed to respond to the C<as_string> method.  For more information
+about the stack trace and associated behavior, consult the L<StackTrace::Auto>
+docs.
 
 =method as_string
 

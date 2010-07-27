@@ -1,6 +1,22 @@
-package Role::AutoTrace;
+package StackTrace::Auto;
 use Moose::Role 0.87;
 # ABSTRACT: a role for generating stack traces during instantiation
+
+=head1 SYNOPSIS
+
+First, include StackTrace::Auto in a Moose class...
+
+  package Some::Class;
+  use Moose;
+  with 'StackTrace::Auto';
+
+...then create an object of that class...
+
+  my $obj = Some::Class->new;
+
+...and now you have a stack trace for the object's creation.
+
+  print $obj->stack_trace->as_string;
 
 =attr stack_trace
 
