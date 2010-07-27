@@ -94,5 +94,6 @@ sub BUILDARGS {
   return $self->SUPER::BUILDARGS(@args);
 }
 
+__PACKAGE__->meta->make_immutable(inline_constructor => 0);
 no Moose;
 1;
