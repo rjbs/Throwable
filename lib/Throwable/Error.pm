@@ -22,8 +22,8 @@ with 'Throwable', 'StackTrace::Auto';
   # or...
 
   MyApp::Error->throw({
-    message => "all communications offline",
-    phase   => 'shutdown',
+    message         => "all communications offline",
+    execution_phase => 'shutdown',
   });
 
 =head1 DESCRIPTION
@@ -34,7 +34,7 @@ L<Exception::Class|Exception::Class>, the features of which are largely
 provided by the Moose object system atop which Throwable::Error is built.
 
 Throwable::Error performs the L<Throwable|Throwable> and L<StackTrace::Auto>
-roles.  That means you can call C<throw> on it to create and throw n error
+roles.  That means you can call C<throw> on it to create and throw an error
 object in one call, and that every error object will have a stack trace for its
 creation.
 
