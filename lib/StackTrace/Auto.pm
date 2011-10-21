@@ -1,5 +1,5 @@
 package StackTrace::Auto;
-use Moose::Role 0.87;
+use Any::Moose 'Role';
 # ABSTRACT: a role for generating stack traces during instantiation
 
 =head1 SYNOPSIS
@@ -7,7 +7,7 @@ use Moose::Role 0.87;
 First, include StackTrace::Auto in a Moose class...
 
   package Some::Class;
-  use Moose;
+  use Any::Moose;
   with 'StackTrace::Auto';
 
 ...then create an object of that class...
@@ -34,7 +34,7 @@ In general, you will not need to think about this attribute.
 =cut
 
 {
-  use Moose::Util::TypeConstraints;
+  use Any::Moose 'Util::TypeConstraints';
 
   has stack_trace => (
     is       => 'ro',
@@ -43,8 +43,9 @@ In general, you will not need to think about this attribute.
     init_arg => undef,
   );
 
+  require Class::Load;
   my $tc = subtype as 'ClassName';
-  coerce $tc, from 'Str', via { Class::MOP::load_class($_); $_ };
+  coerce $tc, from 'Str', via { Class::Load::load_class($_); $_ };
 
   has stack_trace_class => (
     is      => 'ro',
@@ -54,7 +55,7 @@ In general, you will not need to think about this attribute.
     builder => '_build_stack_trace_class',
   );
 
-  no Moose::Util::TypeConstraints;
+  no Any::Moose 'Util::TypeConstraints';
 }
 
 =attr stack_trace_args
@@ -113,5 +114,5 @@ sub __stack_marker {
   return $self->$next(@_);
 }
 
-no Moose::Role;
+no Any::Moose 'Role';
 1;

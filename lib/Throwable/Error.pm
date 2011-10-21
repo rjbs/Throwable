@@ -1,12 +1,12 @@
 package Throwable::Error;
-use Moose 0.87;
+use Any::Moose;
 with 'Throwable', 'StackTrace::Auto';
 # ABSTRACT: an easy-to-use class for error objects
 
 =head1 SYNOPSIS
 
   package MyApp::Error;
-  use Moose;
+  use Any::Moose;
   extends 'Throwable::Error';
 
   has execution_phase => (
@@ -95,5 +95,5 @@ sub BUILDARGS {
 }
 
 __PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no Moose;
+no Any::Moose;
 1;
