@@ -1,11 +1,11 @@
 package Throwable;
-use Moose::Role 0.87;
+use Any::Moose 'Role';
 # ABSTRACT: a role for classes that can be thrown
 
 =head1 SYNOPSIS
 
   package Redirect;
-  use Moose;
+  use Any::Moose;
   with 'Throwable';
 
   has url => (is => 'ro');
@@ -59,5 +59,5 @@ sub throw {
   die $throwable;
 }
 
-no Moose::Role;
+no Any::Moose 'Role';
 1;
