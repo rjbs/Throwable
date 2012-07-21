@@ -1,5 +1,9 @@
 package Throwable;
-use Moose::Role 0.87;
+use Moo::Role;
+use Sub::Quote ();
+use Scalar::Util ();
+use Carp ();
+
 # ABSTRACT: a role for classes that can be thrown
 
 =head1 SYNOPSIS
@@ -30,10 +34,13 @@ Throwable object is created.
 has 'previous_exception' => (
   is       => 'ro',
   init_arg => undef,
-  default  => sub {
-    return unless defined $@ and (ref $@ or length $@);
-    return $@;
-  },
+  default  => Sub::Quote::quote_sub(q{
+    if (defined $@ and (ref $@ or length $@)) {
+      $@;
+    } else {
+      undef;
+    }
+  }),
 );
 
 =method throw
@@ -50,8 +57,8 @@ If called on an object that does Throwable, the object will be rethrown.
 sub throw {
   my ($inv) = shift;
 
-  if (blessed $inv) {
-    confess "throw called on Throwable object with arguments" if @_;
+  if (Scalar::Util::blessed($inv)) {
+    Carp::confess "throw called on Throwable object with arguments" if @_;
     die $inv;
   }
 
@@ -59,5 +66,5 @@ sub throw {
   die $throwable;
 }
 
-no Moose::Role;
+no Moo::Role;
 1;

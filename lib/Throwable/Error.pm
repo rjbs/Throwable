@@ -1,5 +1,6 @@
 package Throwable::Error;
-use Moose 0.87;
+use Moo;
+use MooX::Types::MooseLike::Base qw(Str);
 with 'Throwable', 'StackTrace::Auto';
 # ABSTRACT: an easy-to-use class for error objects
 
@@ -54,7 +55,7 @@ error is stringified.
 
 has message => (
   is       => 'ro',
-  isa      => 'Str',
+  isa      => Str,
   required => 1,
 );
 
@@ -94,6 +95,4 @@ sub BUILDARGS {
   return $self->SUPER::BUILDARGS(@args);
 }
 
-__PACKAGE__->meta->make_immutable(inline_constructor => 0);
-no Moose;
 1;

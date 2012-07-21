@@ -1,5 +1,9 @@
 package StackTrace::Auto;
-use Moose::Role 0.87;
+use Moo::Role;
+use Sub::Quote ();
+use MooX::Types::MooseLike::Base qw(Str ArrayRef);
+use Module::Runtime 'require_module';
+
 # ABSTRACT: a role for generating stack traces during instantiation
 
 =head1 SYNOPSIS
@@ -33,29 +37,28 @@ In general, you will not need to think about this attribute.
 
 =cut
 
-{
-  use Moose::Util::TypeConstraints;
+has stack_trace => (
+  is       => 'ro',
+  isa      => Sub::Quote::quote_sub(q{
+    require Scalar::Util;
+    die "stack_trace must be have an 'as_string' method!" unless
+       Scalar::Util::blessed($_[0]) && $_[0]->can('as_string')
+  }),
+  builder  => '_build_stack_trace',
+  init_arg => undef,
+);
 
-  has stack_trace => (
-    is       => 'ro',
-    isa      => duck_type([ qw(as_string) ]),
-    builder  => '_build_stack_trace',
-    init_arg => undef,
-  );
-
-  my $tc = subtype as 'ClassName';
-  coerce $tc, from 'Str', via { Class::MOP::load_class($_); $_ };
-
-  has stack_trace_class => (
-    is      => 'ro',
-    isa     => $tc,
-    coerce  => 1,
-    lazy    => 1,
-    builder => '_build_stack_trace_class',
-  );
-
-  no Moose::Util::TypeConstraints;
-}
+has stack_trace_class => (
+  is      => 'ro',
+  isa     => Str,
+  coerce  => Sub::Quote::quote_sub(q{
+    use Module::Runtime 'require_module';
+    require_module($_[0]);
+    $_[0];
+  }),
+  lazy    => 1,
+  builder => '_build_stack_trace_class',
+);
 
 =attr stack_trace_args
 
@@ -66,7 +69,7 @@ trace.  In general, you will not need to think about it.
 
 has stack_trace_args => (
   is      => 'ro',
-  isa     => 'ArrayRef',
+  isa     => ArrayRef,
   lazy    => 1,
   builder => '_build_stack_trace_args',
 );
@@ -105,5 +108,5 @@ sub _build_stack_trace {
   );
 }
 
-no Moose::Role;
+no Moo::Role;
 1;

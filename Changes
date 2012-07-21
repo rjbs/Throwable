@@ -1,6 +1,7 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          port to Moo
 
 0.102080  2010-07-27 12:09:21 America/New_York
           refactor stack trace autocreation to StackTrace::Auto role
