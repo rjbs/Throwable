@@ -18,6 +18,8 @@ sub call_throw_x {
   throw_x;
 }
 
+warn MyError->new({ message => 'm' });
+
 eval { call_throw_x; };
 
 my $error = $@;

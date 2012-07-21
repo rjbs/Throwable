@@ -78,18 +78,22 @@ sub _build_stack_trace_class {
 sub _build_stack_trace_args {
   my ($self) = @_;
   my $found_mark = 0;
-  my $uplevel = 3; # number of *raw* frames to go up after we found the marker
   return [
     frame_filter => sub {
       my ($raw) = @_;
-      if ($found_mark) {
-          return 1 unless $uplevel;
-          return !$uplevel--;
+      if ($found_mark == 2) {
+          return 1;
       }
-      else {
-        $found_mark = scalar $raw->{caller}->[3] =~ /__stack_marker$/;
+      elsif ($found_mark == 1) {
+        if ($raw->{caller}->[3] =~ /::new$/) {
+          $found_mark = 2;
+          return 0;
+        }
         return 0;
-    }
+      } else {
+        $found_mark++ if $raw->{caller}->[3] =~ /::_build_stack_trace$/;
+        return 0;
+      }
     },
   ];
 }
@@ -99,18 +103,6 @@ sub _build_stack_trace {
   return $self->stack_trace_class->new(
     @{ $self->stack_trace_args },
   );
-}
-
-around new => sub {
-  my $next = shift;
-  my $self = shift;
-  return $self->__stack_marker($next, @_);
-};
-
-sub __stack_marker {
-  my $self = shift;
-  my $next = shift;
-  return $self->$next(@_);
 }
 
 no Moose::Role;
