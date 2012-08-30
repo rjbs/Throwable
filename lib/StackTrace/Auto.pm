@@ -84,16 +84,20 @@ sub _build_stack_trace_args {
   return [
     frame_filter => sub {
       my ($raw) = @_;
-      if ($found_mark == 2) {
+      my $sub = $raw->{caller}->[3];
+      (my $package = $sub) =~ s/::\w+\z//;
+      if ($found_mark == 3) {
           return 1;
       }
-      elsif ($found_mark == 1) {
-        if ($raw->{caller}->[3] =~ /::new$/) {
-          $found_mark = 2;
-          return 0;
-        }
+      elsif ($found_mark == 2) {
+        return 0 if $sub =~ /::new$/ && $self->isa($package);
+        $found_mark++;
+        return 1;
+      } elsif ($found_mark == 1) {
+        $found_mark++ if $sub =~ /::new$/ && $self->isa($package);
         return 0;
-      } else {
+      }
+      else {
         $found_mark++ if $raw->{caller}->[3] =~ /::_build_stack_trace$/;
         return 0;
       }
