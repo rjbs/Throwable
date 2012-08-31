@@ -1,8 +1,8 @@
 package StackTrace::Auto;
 use Moo::Role;
 use Sub::Quote ();
-use MooX::Types::MooseLike::Base qw(Str ArrayRef);
-use Module::Runtime 'require_module';
+use MooX::Types::MooseLike::Base qw(ArrayRef);
+use Class::Load ();
 
 # ABSTRACT: a role for generating stack traces during instantiation
 
@@ -50,11 +50,12 @@ has stack_trace => (
 
 has stack_trace_class => (
   is      => 'ro',
-  isa     => Str,
+  isa     => Sub::Quote::quote_sub(q{
+      die "stack_trace_class must be a loaded class"
+          unless Class::Load::is_class_loaded($_[0]);
+  }),
   coerce  => Sub::Quote::quote_sub(q{
-    use Module::Runtime 'require_module';
-    require_module($_[0]);
-    $_[0];
+    Class::Load::load_class($_[0]);
   }),
   lazy    => 1,
   builder => '_build_stack_trace_class',
