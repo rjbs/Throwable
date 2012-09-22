@@ -2,7 +2,7 @@ package StackTrace::Auto;
 use Moo::Role;
 use Sub::Quote ();
 use MooX::Types::MooseLike::Base qw(ArrayRef);
-use Class::Load ();
+use Class::Load 0.20 ();
 
 # ABSTRACT: a role for generating stack traces during instantiation
 
