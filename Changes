@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+
+0.200002  2012-10-09 08:56:21 America/New_York
           require Moo 1.000001
 
 0.200001  2012-09-22 18:10:29 America/New_York
