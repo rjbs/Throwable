@@ -1,5 +1,5 @@
 package Throwable::Error;
-use Moo;
+use Moo 1.000001;
 use MooX::Types::MooseLike::Base qw(Str);
 with 'Throwable', 'StackTrace::Auto';
 # ABSTRACT: an easy-to-use class for error objects

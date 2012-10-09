@@ -1,6 +1,7 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          require Moo 1.000001
 
 0.200001  2012-09-22 18:10:29 America/New_York
           update a prerequisite (thanks, FREW)
