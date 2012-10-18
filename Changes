@@ -1,6 +1,16 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          no code changes; just no longer trial
+
+0.200002  2012-10-09 08:56:21 America/New_York
+          require Moo 1.000001
+
+0.200001  2012-09-22 18:10:29 America/New_York
+          update a prerequisite (thanks, FREW)
+
+0.200000  2012-09-20 14:12:34 America/New_York
+          port to Moo (FREW, MSTROUT, ILMARI)
 
 0.102080  2010-07-27 12:09:21 America/New_York
           refactor stack trace autocreation to StackTrace::Auto role
