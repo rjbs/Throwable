@@ -1,6 +1,7 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          no code changes; just no longer trial
 
 0.200002  2012-10-09 08:56:21 America/New_York
           require Moo 1.000001
