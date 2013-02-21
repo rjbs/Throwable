@@ -2,6 +2,10 @@ Revision history for Throwable
 
 {{$NEXT}}
 
+0.200004  2013-02-21 16:50:05 America/New_York
+          update Throwable::Error to use around modifier instead of calling
+          SUPER:: (thanks, Justin Hunter)
+
 0.200003  2012-10-18 08:52:20 America/New_York
           no code changes; just no longer trial
 
