@@ -82,17 +82,18 @@ sub as_string {
   return $str;
 }
 
-sub BUILDARGS {
-  my ($self, @args) = @_;
+around BUILDARGS => sub {
+  my $orig = shift;
+  my $self = shift;
 
-  return {} unless @args;
-  return {} if @args == 1 and ! defined $args[0];
+  return {} unless @_;
+  return {} if @_ == 1 and ! defined $_[0];
 
-  if (@args == 1 and (!ref $args[0]) and defined $args[0] and length $args[0]) {
-    return { message => $args[0] };
+  if (@_ == 1 and (!ref $_[0]) and defined $_[0] and length $_[0]) {
+    return { message => $_[0] };
   }
 
-  return $self->SUPER::BUILDARGS(@args);
-}
+  return $self->$orig(@_);
+};
 
 1;
