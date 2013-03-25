@@ -1,6 +1,7 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          Plugged memory leak (thaljef)
 
 0.200004  2013-02-21 16:50:05 America/New_York
           update Throwable::Error to use around modifier instead of calling

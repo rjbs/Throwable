@@ -3,6 +3,7 @@ use Moo::Role;
 use Sub::Quote ();
 use MooX::Types::MooseLike::Base qw(ArrayRef);
 use Class::Load 0.20 ();
+use Scalar::Util ();
 
 # ABSTRACT: a role for generating stack traces during instantiation
 
@@ -81,6 +82,9 @@ sub _build_stack_trace_class {
 
 sub _build_stack_trace_args {
   my ($self) = @_;
+
+  Scalar::Util::weaken($self);  # Prevent memory leak
+
   my $found_mark = 0;
   return [
     frame_filter => sub {
