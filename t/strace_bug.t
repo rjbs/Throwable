@@ -19,6 +19,7 @@ use Test::More tests => 3;
 eval {
     eval "die 'Previously'" or My::X->throw(message => 'WTF!');
 };
-is $@->message, 'WTF!', 'Should have message';
-like $@->previous_exception, qr/Previously/, 'Should have previous exception';
-isa_ok $@->stack_trace_class, 'My::Trace';
+my $error = $@;
+is $error->message, 'WTF!', 'Should have message';
+like $error->previous_exception, qr/Previously/, 'Should have previous exception';
+isa_ok $error->stack_trace_class, 'My::Trace';
