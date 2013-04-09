@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          lose old $@ in previous_exception less often under 5.17.10 (thanks,
+          David Wheeler)
 
 0.200005  2013-04-05 15:04:52 America/New_York
           Plugged memory leak (thaljef)

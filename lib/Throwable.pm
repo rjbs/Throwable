@@ -27,20 +27,26 @@ previous value for C<$@> and calls C<die $self>.
 =attr previous_exception
 
 This attribute is created automatically, and stores the value of C<$@> when the
-Throwable object is created.
+Throwable object is created.  This is done on a I<best effort basis>.  C<$@> is
+subject to lots of spooky action-at-a-distance.  For now, there are clearly
+ways that the previous exception could be lost.
 
 =cut
+
+our %_HORRIBLE_HACK;
 
 has 'previous_exception' => (
   is       => 'ro',
   init_arg => undef,
-  default  => Sub::Quote::quote_sub(q{
-    if (defined $@ and (ref $@ or length $@)) {
+  default  => Sub::Quote::quote_sub(q<
+    if ($Throwable::_HORRIBLE_HACK{ERROR}) {
+      $Throwable::_HORRIBLE_HACK{ERROR}
+    } elsif (defined $@ and (ref $@ or length $@)) {
       $@;
     } else {
       undef;
     }
-  }),
+  >),
 );
 
 =method throw
@@ -62,6 +68,7 @@ sub throw {
     die $inv;
   }
 
+  local $_HORRIBLE_HACK{ERROR} = $@;
   my $throwable = $inv->new(@_);
   die $throwable;
 }
