@@ -37,7 +37,6 @@ our %_HORRIBLE_HACK;
 
 has 'previous_exception' => (
   is       => 'ro',
-  init_arg => undef,
   default  => Sub::Quote::quote_sub(q<
     if ($Throwable::_HORRIBLE_HACK{ERROR}) {
       $Throwable::_HORRIBLE_HACK{ERROR}
