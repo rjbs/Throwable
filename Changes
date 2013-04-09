@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+
+0.200007  2013-04-09 19:20:02 America/New_York
           allow previous_exception to be passed to the constructor
 
 0.200006  2013-04-09 14:58:07 America/New_York
