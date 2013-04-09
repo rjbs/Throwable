@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+
+0.200006  2013-04-09 14:58:07 America/New_York
           lose old $@ in previous_exception less often under 5.17.10 (thanks,
           David Wheeler)
 
