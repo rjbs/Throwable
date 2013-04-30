@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+          avoid a Moose-using test in the suite of tests run by users (thanks,
+          Dave Rolsky)
 
 0.200007  2013-04-09 19:20:02 America/New_York
           allow previous_exception to be passed to the constructor
