@@ -24,6 +24,9 @@ Throwable is a role for classes that are meant to be thrown as exceptions to
 standard program flow.  It is very simple and does only two things: saves any
 previous value for C<$@> and calls C<die $self>.
 
+Throwable is implemented with L<Moo>, so you can stick to Moo or use L<Moose>
+as you prefer.
+
 =attr previous_exception
 
 This attribute is created automatically, and stores the value of C<$@> when the
