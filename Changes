@@ -2,6 +2,12 @@ Revision history for Throwable
 
 {{$NEXT}}
 
+0.200009  2013-10-21 22:05:53 America/New_York
+        - avoid boolifying objects that might be held in the out of band
+          storage
+        - update bugtracker and repo metadata
+        - more changes coming soon
+
 0.200008  2013-04-30 12:50:19 America/New_York
           avoid a Moose-using test in the suite of tests run by users (thanks,
           Dave Rolsky)
