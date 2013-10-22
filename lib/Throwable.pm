@@ -41,7 +41,7 @@ our %_HORRIBLE_HACK;
 has 'previous_exception' => (
   is       => 'ro',
   default  => Sub::Quote::quote_sub(q<
-    if ($Throwable::_HORRIBLE_HACK{ERROR}) {
+    if (defined $Throwable::_HORRIBLE_HACK{ERROR}) {
       $Throwable::_HORRIBLE_HACK{ERROR}
     } elsif (defined $@ and (ref $@ or length $@)) {
       $@;
