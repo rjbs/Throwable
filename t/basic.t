@@ -16,6 +16,12 @@ BEGIN {
     use $class;
     extends 'Throwable::Error';
 
+    sub extra_stack_trace_args {
+      return (
+        message => "Overridden message",
+      );
+    }
+
     1;
   } or die $@;
 }
@@ -39,6 +45,7 @@ is($error->message, q{foo bar baz}, "error message is correct");
 my $trace = $error->stack_trace;
 
 isa_ok($trace, 'Devel::StackTrace', 'the trace');
+like $trace->as_string, qr/^Overridden message/, "Stack trace args extended";
 
 my @frames = $trace->frames;
 is(@frames, 4 + $extra_frames, "we have four frames in our trace");
@@ -46,6 +53,7 @@ is($frames[0]->subroutine, q{Throwable::throw},   'correct frame 0');
 is($frames[1]->subroutine, q{main::throw_x},      'correct frame 1');
 is($frames[2]->subroutine, q{main::call_throw_x}, 'correct frame 2');
 is($frames[3]->subroutine, q{(eval)},             'correct frame 3');
+
 
 {
    eval { MyError->throw('shucks howdy'); };

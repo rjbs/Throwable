@@ -107,7 +107,23 @@ sub _build_stack_trace_args {
         return 0;
       }
     },
+    $self->extra_stack_trace_args,
   ];
+}
+
+=method extra_stack_trace_args
+
+Setting 'stack_trace_args' directly can be a little bit tricky because you
+don't want to stamp on our default filter that hides the stack trace building
+process from the generated stack trace. Instead, implement
+C<extra_stack_trace_args> which should return a list of extra parameters to
+pass to the stack trace class's C<new> method along with the default frame
+filter.
+
+=cut
+
+sub extra_stack_trace_args {
+  return;
 }
 
 sub _build_stack_trace {
