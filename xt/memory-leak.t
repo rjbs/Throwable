@@ -12,7 +12,6 @@ use Test::Memory::Cycle;
 }
 
 eval { MyError->throw('the error') };
-ok($@, 'Exception was thrown');
 memory_cycle_ok($@, 'Exception has no memory cycles');
 
 done_testing();
