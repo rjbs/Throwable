@@ -45,7 +45,11 @@ has stack_trace => (
     die "stack_trace must be have an 'as_string' method!" unless
        Scalar::Util::blessed($_[0]) && $_[0]->can('as_string')
   }),
-  builder  => '_build_stack_trace',
+  default  => Sub::Quote::quote_sub(q{
+    $_[0]->stack_trace_class->new(
+      @{ $_[0]->stack_trace_args },
+    );
+  }),
   init_arg => undef,
 );
 
@@ -91,30 +95,19 @@ sub _build_stack_trace_args {
       my ($raw) = @_;
       my $sub = $raw->{caller}->[3];
       (my $package = $sub) =~ s/::\w+\z//;
-      if ($found_mark == 3) {
+      if ($found_mark == 2) {
           return 1;
       }
-      elsif ($found_mark == 2) {
+      elsif ($found_mark == 1) {
         return 0 if $sub =~ /::new$/ && $self->isa($package);
         $found_mark++;
         return 1;
-      } elsif ($found_mark == 1) {
+      } else {
         $found_mark++ if $sub =~ /::new$/ && $self->isa($package);
-        return 0;
-      }
-      else {
-        $found_mark++ if $raw->{caller}->[3] =~ /::_build_stack_trace$/;
         return 0;
       }
     },
   ];
-}
-
-sub _build_stack_trace {
-  my ($self) = @_;
-  return $self->stack_trace_class->new(
-    @{ $self->stack_trace_args },
-  );
 }
 
 no Moo::Role;
