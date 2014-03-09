@@ -1,10 +1,10 @@
 package Throwable;
+# ABSTRACT: a role for classes that can be thrown
+
 use Moo::Role;
 use Sub::Quote ();
 use Scalar::Util ();
 use Carp ();
-
-# ABSTRACT: a role for classes that can be thrown
 
 =head1 SYNOPSIS
 
