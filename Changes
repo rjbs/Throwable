@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+
+0.200010  2014-03-08 22:39:25-05:00 America/New_York
         - eliminate a memory leak in StackTrace::Auto (thanks, Graham Knop!)
 
 0.200009  2013-10-21 22:05:53 America/New_York
