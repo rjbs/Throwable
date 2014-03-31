@@ -4,7 +4,7 @@ package StackTrace::Auto;
 use Moo::Role;
 use Sub::Quote ();
 use MooX::Types::MooseLike::Base qw(ArrayRef);
-use Class::Load 0.20 ();
+use Module::Runtime 0.002 ();
 use Scalar::Util ();
 
 =head1 SYNOPSIS
@@ -56,11 +56,11 @@ has stack_trace => (
 has stack_trace_class => (
   is      => 'ro',
   isa     => Sub::Quote::quote_sub(q{
-      die "stack_trace_class must be a loaded class"
-          unless Class::Load::is_class_loaded($_[0]);
+    die "stack_trace_class must be a loaded class"
+      unless defined($_[0]) && !ref($_[0]) && $_[0]->can("new");
   }),
   coerce  => Sub::Quote::quote_sub(q{
-    Class::Load::load_class($_[0]);
+    Module::Runtime::use_package_optimistically($_[0]);
   }),
   lazy    => 1,
   builder => '_build_stack_trace_class',
