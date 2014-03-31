@@ -2,7 +2,6 @@ package Throwable::Error;
 # ABSTRACT: an easy-to-use class for error objects
 
 use Moo 1.000001;
-use MooX::Types::MooseLike::Base qw(Str);
 with 'Throwable', 'StackTrace::Auto';
 
 =head1 SYNOPSIS
@@ -56,7 +55,10 @@ error is stringified.
 
 has message => (
   is       => 'ro',
-  isa      => Str,
+  isa      => Sub::Quote::quote_sub(q{
+      die "message must be a string"
+          unless defined($_[0]) && !ref($_[0]);
+  }),,
   required => 1,
 );
 

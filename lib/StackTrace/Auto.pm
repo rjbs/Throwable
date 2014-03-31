@@ -3,7 +3,6 @@ package StackTrace::Auto;
 
 use Moo::Role;
 use Sub::Quote ();
-use MooX::Types::MooseLike::Base qw(ArrayRef);
 use Class::Load 0.20 ();
 use Scalar::Util ();
 
@@ -75,7 +74,10 @@ trace.  In general, you will not need to think about it.
 
 has stack_trace_args => (
   is      => 'ro',
-  isa     => ArrayRef,
+  isa     => Sub::Quote::quote_sub(q{
+      die "stack_trace_args must be an arrayref"
+          unless ref($_[0]) && ref($_[0]) eq "ARRAY";
+  }),
   lazy    => 1,
   builder => '_build_stack_trace_args',
 );
