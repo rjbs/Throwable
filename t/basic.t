@@ -16,6 +16,22 @@ BEGIN {
     use $class;
     extends 'Throwable::Error';
 
+    package MyError2;
+    use $class;
+    extends 'Throwable::Error';
+  }.q{
+
+    use Carp qw(cluck);
+    around _build_stack_trace_args => sub {
+      my ($orig, $self) = (shift, shift);
+
+      return [
+        @{$self->$orig(@_)},
+        no_refs => 1,
+        respect_overload => 1,
+      ];
+    };
+
     1;
   } or die $@;
 }
@@ -82,6 +98,17 @@ for my $i (1..10) {
 
     my $error = $@;
     isa_ok($error->stack_trace, 'MyTrace', "the trace (run $i)")
+}
+
+{
+    eval {
+        local $SIG{ALRM} = sub { fail('no_refs + respect_overload finishes'); exit 1; };
+        alarm 10;
+        MyError2->throw('aiee!');
+    };
+
+    my $error = $@;
+    isa_ok($error, 'MyError2', 'the error');
 }
 
 done_testing();

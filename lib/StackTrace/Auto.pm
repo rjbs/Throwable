@@ -54,9 +54,7 @@ has stack_trace => (
 );
 
 sub BUILD {};
-# trigger stringification to filter the stack trace and avoid cycles
-# between the exception object and the raw stack frames' arguments
-before BUILD => sub { $_[0]->stack_trace->as_string };
+before BUILD => sub { $_[0]->stack_trace };
 
 has stack_trace_class => (
   is      => 'ro',
@@ -99,6 +97,7 @@ sub _build_stack_trace_args {
 
   my $found_mark = 0;
   return [
+    filter_frames_early => 1,
     frame_filter => sub {
       my ($raw) = @_;
       my $sub = $raw->{caller}->[3];
