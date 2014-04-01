@@ -71,4 +71,17 @@ sub create_error { HasError->new->{error} }
   is($frames[1]->subroutine, q{main::create_error}, 'correct frame 1');
 }
 
+{
+    package MyTrace;
+    use base 'Devel::StackTrace';
+}
+
+# make sure to catch intermittent failures due to attribute initialisation order
+for my $i (1..10) {
+    eval { MyError->throw({ message => 'aieee!', stack_trace_class => 'MyTrace' }) };
+
+    my $error = $@;
+    isa_ok($error->stack_trace, 'MyTrace', "the trace (run $i)")
+}
+
 done_testing();
