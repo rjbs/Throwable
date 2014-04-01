@@ -49,8 +49,14 @@ has stack_trace => (
       @{ $_[0]->stack_trace_args },
     );
   }),
+  lazy => 1,
   init_arg => undef,
 );
+
+sub BUILD {};
+# trigger stringification to filter the stack trace and avoid cycles
+# between the exception object and the raw stack frames' arguments
+before BUILD => sub { $_[0]->stack_trace->as_string };
 
 has stack_trace_class => (
   is      => 'ro',
