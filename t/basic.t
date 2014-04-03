@@ -106,6 +106,7 @@ for my $i (1..10) {
         alarm 10;
         MyError2->throw('aiee!');
     };
+    alarm 0;
 
     my $error = $@;
     isa_ok($error, 'MyError2', 'the error');
