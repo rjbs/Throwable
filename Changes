@@ -2,6 +2,10 @@ Revision history for Throwable
 
 {{$NEXT}}
 
+0.200011  2014-04-02 20:49:49-04:00 America/New_York
+        - eliminate prereq on Class::Load (thanks, Toby Inkster!)
+        - eliminate preqre on MooX::Types::MooseLike::Base (Toby Inkster)
+
 0.200010  2014-03-08 22:39:25-05:00 America/New_York
         - eliminate a memory leak in StackTrace::Auto (thanks, Graham Knop!)
 
