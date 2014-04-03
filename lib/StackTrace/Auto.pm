@@ -56,7 +56,7 @@ has stack_trace => (
 has stack_trace_class => (
   is      => 'ro',
   isa     => Sub::Quote::quote_sub(q{
-    die "stack_trace_class must be a loaded class"
+    die "stack_trace_class must be a class that responds to ->new"
       unless defined($_[0]) && !ref($_[0]) && $_[0]->can("new");
   }),
   coerce  => Sub::Quote::quote_sub(q{
