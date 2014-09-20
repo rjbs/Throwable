@@ -2,6 +2,10 @@ Revision history for Throwable
 
 {{$NEXT}}
 
+0.200012  2014-09-19 21:59:28-04:00 America/New_York
+        - avoid memory leaks and infinite recursion when stringifying
+          (thanks, Dagfinn Ilmari Mannsåker!)
+
 0.200011  2014-04-02 20:49:49-04:00 America/New_York
         - eliminate prereq on Class::Load (thanks, Toby Inkster!)
         - eliminate preqre on MooX::Types::MooseLike::Base (Toby Inkster)
