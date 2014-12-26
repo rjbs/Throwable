@@ -8,9 +8,10 @@ use Scalar::Util ();
 
 =head1 SYNOPSIS
 
-First, include StackTrace::Auto in a Moose class...
+First, include StackTrace::Auto in a Moose/Moo/Mouse class...
 
   package Some::Class;
+  # NOTE: Moo/Mouse can also be used here instead of Moose
   use Moose;
   with 'StackTrace::Auto';
 
