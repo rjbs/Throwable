@@ -112,4 +112,42 @@ for my $i (1..10) {
     isa_ok($error, 'MyError2', 'the error');
 }
 
+{
+    eval { MyError->throw( { message => 'yikes!' } ); };
+    my $first_error = $@;
+    is( $first_error->previous_exception, q{}, 'no previous exception' );
+
+    eval {
+        $@ = 'foo';
+        MyError->throw( { message => 'argh!' } );
+    };
+
+    my $second_error = $@;
+    is( $second_error->previous_exception, 'foo',
+        'found previous exception foo' );
+}
+
+{
+    eval {
+        eval { MyError->throw( { message => 'one' } ) };
+        eval { MyError->throw( { message => 'two' } ) };
+        MyError->throw( { message => 'argh!' } );
+    };
+    my $error = $@;
+    like( $error->previous_exception,
+        qr{two}, 'found previous exception two' );
+    is( $error->previous_exception->message,
+        'two', 'previous exception is an object' );
+}
+
+{
+    eval {
+        $@ = 0;
+        MyError->throw( { message => 'argh!' } );
+    };
+
+    my $second_error = $@;
+    is( $second_error->previous_exception, 0, 'found previous exception 0' );
+}
+
 done_testing();
