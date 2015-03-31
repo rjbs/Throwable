@@ -7,6 +7,7 @@ with 'Throwable', 'StackTrace::Auto';
 =head1 SYNOPSIS
 
   package MyApp::Error;
+  # NOTE: Moo/Mouse can also be used here instead of Moose
   use Moose;
   extends 'Throwable::Error';
 
@@ -32,7 +33,7 @@ with 'Throwable', 'StackTrace::Auto';
 Throwable::Error is a base class for exceptions that will be thrown to signal
 errors and abort normal program flow.  Throwable::Error is an alternative to
 L<Exception::Class|Exception::Class>, the features of which are largely
-provided by the Moose object system atop which Throwable::Error is built.
+provided by the Moo object system atop which Throwable::Error is built.
 
 Throwable::Error performs the L<Throwable|Throwable> and L<StackTrace::Auto>
 roles.  That means you can call C<throw> on it to create and throw an error
