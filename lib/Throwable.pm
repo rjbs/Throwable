@@ -9,7 +9,7 @@ use Carp ();
 =head1 SYNOPSIS
 
   package Redirect;
-  # NOTE: Moo/Mouse can also be used here instead of Moose
+  # NOTE: Moo can also be used here instead of Moose
   use Moose;
   with 'Throwable';
 
@@ -25,8 +25,8 @@ Throwable is a role for classes that are meant to be thrown as exceptions to
 standard program flow.  It is very simple and does only two things: saves any
 previous value for C<$@> and calls C<die $self>.
 
-Throwable is implemented with L<Moo>, so you can stick to Moo or use L<Moose>
-or L<Mouse>, as you prefer.
+Throwable is implemented with L<Moo>, so you can stick to Moo or use L<Moose>,
+as you prefer.
 
 =attr previous_exception
 

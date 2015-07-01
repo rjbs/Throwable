@@ -7,7 +7,7 @@ with 'Throwable', 'StackTrace::Auto';
 =head1 SYNOPSIS
 
   package MyApp::Error;
-  # NOTE: Moo/Mouse can also be used here instead of Moose
+  # NOTE: Moo can also be used here instead of Moose
   use Moose;
   extends 'Throwable::Error';
 
