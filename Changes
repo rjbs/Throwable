@@ -2,6 +2,10 @@ Revision history for Throwable
 
 {{$NEXT}}
 
+0.200013  2015-07-01 09:46:11-04:00 America/New_York
+        - document that Moo, rather than Moose, may be used if preferred
+          (Brian Manning)
+
 0.200012  2014-09-19 21:59:28-04:00 America/New_York
         - avoid memory leaks and infinite recursion when stringifying
           (thanks, Dagfinn Ilmari Mannsåker!)
