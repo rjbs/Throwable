@@ -64,6 +64,18 @@ is($frames[2]->subroutine, q{main::call_throw_x}, 'correct frame 2');
 is($frames[3]->subroutine, q{(eval)},             'correct frame 3');
 
 {
+   eval { sub { sub { die MyError->new_with_previous('a') }->() }->() };
+
+   my $error = $@;
+   is($error->message, q{a}, "error message is correct");
+   my $trace = $error->stack_trace;
+   my @frames = $trace->frames;
+   is(@frames, 4 + $extra_frames, "we have four frames in our trace");
+   is($frames[0]->subroutine, q{Throwable::new_with_previous}, 'correct frame 0');
+   is($frames[3]->subroutine, q{(eval)}, 'correct frame 3');
+}
+
+{
    eval { MyError->throw('shucks howdy'); };
 
    my $error = $@;
@@ -120,6 +132,21 @@ for my $i (1..10) {
     eval {
         $@ = 'foo';
         MyError->throw( { message => 'argh!' } );
+    };
+
+    my $second_error = $@;
+    is( $second_error->previous_exception, 'foo',
+        'found previous exception foo' );
+}
+
+{
+    eval { die MyError->new_with_previous( { message => 'yikes!' } ); };
+    my $first_error = $@;
+    is( $first_error->previous_exception, q{}, 'no previous exception' );
+
+    eval {
+        $@ = 'foo';
+        die MyError->new_with_previous( { message => 'argh!' } );
     };
 
     my $second_error = $@;
