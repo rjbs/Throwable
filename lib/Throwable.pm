@@ -76,5 +76,20 @@ sub throw {
   die $throwable;
 }
 
+=method new_with_previous
+
+  die Something::Throwable->new_with_previous({ attr => $value });
+
+Constructs an exception object and return it, while trying to mae sure that any
+values in $@ are safely stored in C<previous_exception> without being stomped by
+evals in the construction process.
+
+This is more reliable than calling C<new> directly, but doesn't include the
+forced C<die> in C<throw>.
+
+=cut
+
+sub new_with_previous { local $_HORRIBLE_HACK{ERROR} = $@; shift->new(@_) }
+
 no Moo::Role;
 1;
