@@ -1,4 +1,5 @@
 .build
+.gitnxtver_cache
 Throwable-*
 *~
 .#*
