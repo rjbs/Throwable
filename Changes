@@ -1,6 +1,7 @@
 Revision history for Throwable
 
 {{$NEXT}}
+        - remove inadvertant use of 5.12-only syntax
 
 0.200014  2021-06-18 18:56:53-04:00 America/New_York
         - just fixing contact address for author
