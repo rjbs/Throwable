@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+
+0.201     2021-06-18 21:33:37-04:00 America/New_York
         - remove inadvertant use of 5.12-only syntax
 
 0.200014  2021-06-18 18:56:53-04:00 America/New_York
