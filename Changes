@@ -1,6 +1,7 @@
 Revision history for Throwable
 
 {{$NEXT}}
+        - typo fix (thanks, Robert Rothenberg!)
 
 1.000     2021-06-26 13:46:02-04:00 America/New_York
         - The previous release changed from 0.xxxxxx to 0.xxx for
