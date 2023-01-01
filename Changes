@@ -1,6 +1,8 @@
 Revision history for Throwable
 
 {{$NEXT}}
+
+1.001     2022-12-31 19:37:15-05:00 America/New_York
         - typo fix (thanks, Robert Rothenberg!)
         - update metadata just a little
 
